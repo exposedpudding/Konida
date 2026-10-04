@@ -1,0 +1,10 @@
+# Copy to fleet.yaml and edit. Keys are your own labels.
+machines:
+  reception-c360i:
+    equipment_number: "A1B2C3D4E5"   # serial / machine ID as the portal knows it
+    postcode: "AB1 2CD"
+    # Default toner order for this machine: product code (or unique text on the
+    # portal product row) -> quantity. Overridable with --toner on the CLI.
+    toner:
+      TN-328K: 1
+      TN-328C: 1
