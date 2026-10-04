@@ -83,7 +83,10 @@ def add_toner(page: Page, code: str, qty: int, discover=False):
 def place_order(machine, items: dict[str, int], confirm=False, discover=False, headless=False):
     """Returns (status, reference). status: 'dry-run' | 'submitted'."""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=headless)
+        try:  # Windows always has Edge; avoids shipping a browser
+            browser = p.chromium.launch(channel="msedge", headless=headless)
+        except Exception:
+            browser = p.chromium.launch(headless=headless)
         page = browser.new_context().new_page()
         try:
             guest_login(page, machine, discover)

@@ -16,3 +16,9 @@ the quantity of each toner and logging every order against the copier's serial n
 - Orders are logged to local `orders.db` (SQLite) with serial, items, status, portal ref.
 - **First run:** the order pages were not inspectable without passing the captcha. Run with
   `--discover`, then adjust the `SEL` selectors in `konida/portal.py` using `./discovery/`.
+
+## Windows app (no install)
+
+CI builds `Konida.exe` (GitHub Actions > "Build Windows exe" > artifact `Konida-windows`).
+Put it in any folder and double-click. It uses the Microsoft Edge already on Windows,
+and keeps `fleet.yaml` and `orders.db` next to the exe (portable, e.g. on a USB stick).

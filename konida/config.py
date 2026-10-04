@@ -34,3 +34,27 @@ def parse_toner_args(pairs: list[str]) -> dict[str, int]:
             raise SystemExit(f"Bad --toner value {p!r}; use CODE=QTY, e.g. TN-328K=2")
         out[code.strip()] = int(qty)
     return out
+
+
+def app_dir() -> Path:
+    """Folder holding fleet.yaml / orders.db: next to the exe when frozen."""
+    import sys
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).parent
+    return Path.cwd()
+
+
+def save_machine(path, label, equipment_number, postcode):
+    p = Path(path)
+    data = yaml.safe_load(p.read_text()) if p.exists() else {}
+    data = data or {}
+    data.setdefault("machines", {})[label] = {
+        "equipment_number": equipment_number, "postcode": postcode, "toner": {}}
+    p.write_text(yaml.safe_dump(data, sort_keys=False))
+
+
+def save_toner_defaults(path, label, toner: dict[str, int]):
+    p = Path(path)
+    data = yaml.safe_load(p.read_text())
+    data["machines"][label]["toner"] = toner
+    p.write_text(yaml.safe_dump(data, sort_keys=False))
